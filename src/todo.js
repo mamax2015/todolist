@@ -1,22 +1,55 @@
 import React from 'react';
+import {ViewTodo} from './viewTodo';
+import {EditTodo} from './editTodo';
 
 export class ToDo extends React.Component {
+    constructor(props){
+        super(props);
+        const todo = this.props.todo;
+        this.state = {
+            id : todo.id,
+            title : todo.title,
+            edit: todo.edit,
+            newTitle : todo.title
+        }
+        this.changeMode = this.changeMode.bind(this);
+        this.changeValue = this.changeValue.bind(this);
+        this.saveTodo = this.saveTodo.bind(this);
+        this.cancelEdit = this.cancelEdit.bind(this);
+    }
+    changeMode() {
+        this.setState({
+            edit: !this.state.edit
+        });
+    }
+    cancelEdit(){
+        this.setState({
+            edit: false,
+            newTitle: this.state.title
+        });
+    }
+    changeValue(event){
+        this.setState({newTitle : event.target.value})
+    }
+    saveTodo(){
+        this.props.saveTodo(this.state.id,this.state.newTitle);
+    }
     render() {
         const todo = this.props.todo;
-        const deleteTodo = () => {
-            this.props.delete(todo);
+        const removeTodo = () => {
+            this.props.removeTodo(todo.id);
         }
-        const edit = () => {
-            console.log('edit');
-        }        
+        
+        const renderTodo = () => {
+            if(this.state.edit){
+                return <EditTodo todo={this.state} changeValue={this.changeValue} changeMode={this.changeMode} saveTodo={this.saveTodo} cancelEdit={this.cancelEdit} />
+            }else{
+                return <ViewTodo todo={this.state} removeTodo={removeTodo} changeMode={this.changeMode} />
+            }
+        }
         return (
-            <div className="input-group mb-3">
-            
-                <div className="title">{todo.title}</div>
-                <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" type="button" onClick={edit}>Edit</button>
-                    <button className="btn btn-outline-secondary" type="button" onClick={deleteTodo}>Delete</button>
-                </div>
+            <div className="input-group mb-3">                
+                {renderTodo()}
             </div>
         )
     }

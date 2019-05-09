@@ -10,8 +10,7 @@ let todos = [
     },
     {
         id:2,
-        title: 'Donec nec justo eget feli',
-        edit:true
+        title: 'Donec nec justo eget feli'
     },
     {
         id:3,
