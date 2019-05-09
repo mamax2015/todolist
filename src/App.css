@@ -1,3 +1,6 @@
-#root, .title{
+#root{
   width: 460px;
+}
+.title.done label{
+  text-decoration: line-through;
 }

@@ -6,19 +6,23 @@ import {ToDoList} from './toDoList';
 let todos = [
     {
         id:1,
-        title: 'Lorem ipsum dolor sit amet'
+        title: 'Lorem ipsum dolor sit amet',
+        isDone: false
     },
     {
         id:2,
-        title: 'Donec nec justo eget feli'
+        title: 'Donec nec justo eget feli',
+        isDone: true
     },
     {
         id:3,
-        title: 'Morbi in sem quis dui'
+        title: 'Morbi in sem quis dui',
+        isDone: false
     },
     {
         id:4,
-        title: 'Praesent dapibus, neque id cursus faucibus'
+        title: 'Praesent dapibus, neque id cursus faucibus',
+        isDone: true
     }            
 ]
 ReactDOM.render(<ToDoList todos={todos} />, document.getElementById('root'));

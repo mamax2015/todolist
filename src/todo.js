@@ -10,12 +10,14 @@ export class ToDo extends React.Component {
             id : todo.id,
             title : todo.title,
             edit: todo.edit,
-            newTitle : todo.title
+            newTitle : todo.title,
+            isDone : todo.isDone
         }
         this.changeMode = this.changeMode.bind(this);
         this.changeValue = this.changeValue.bind(this);
         this.saveTodo = this.saveTodo.bind(this);
         this.cancelEdit = this.cancelEdit.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
     }
     changeMode() {
         this.setState({
@@ -34,6 +36,18 @@ export class ToDo extends React.Component {
     saveTodo(){
         this.props.saveTodo(this.state.id,this.state.newTitle);
     }
+    changeStatus(event){
+        const checked = event.target.checked;
+        this.props.changeStatus(this.state.id,checked);
+        this.setState({
+            isDone : checked
+        })
+    }
+
+    onCheck(event){
+        const isChecked = event.target.value;
+    }
+
     render() {
         const todo = this.props.todo;
         const removeTodo = () => {
@@ -42,9 +56,23 @@ export class ToDo extends React.Component {
         
         const renderTodo = () => {
             if(this.state.edit){
-                return <EditTodo todo={this.state} changeValue={this.changeValue} changeMode={this.changeMode} saveTodo={this.saveTodo} cancelEdit={this.cancelEdit} />
+                return (
+                    <EditTodo 
+                        todo={this.state} 
+                        changeValue={this.changeValue} 
+                        changeMode={this.changeMode} 
+                        saveTodo={this.saveTodo} 
+                        cancelEdit={this.cancelEdit} />
+                )
             }else{
-                return <ViewTodo todo={this.state} removeTodo={removeTodo} changeMode={this.changeMode} />
+                return (
+                    <ViewTodo 
+                        changeStatus={this.changeStatus} 
+                        todo={this.state} 
+                        removeTodo={removeTodo} 
+                        onCheck={this.onCheck}
+                        changeMode={this.changeMode} />
+                )
             }
         }
         return (
