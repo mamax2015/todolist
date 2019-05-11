@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 export class ViewTodo extends React.Component {
     render() {    
@@ -15,7 +16,8 @@ export class ViewTodo extends React.Component {
                 </div>
                 
                 <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" type="button" onClick={this.props.changeMode}>Edit</button>
+                    <button className="btn btn-outline-secondary" type="button" onClick={this.props.changeMode}>Edit Title</button>
+                    <Link className="btn btn-outline-secondary" to={`/edit`}>Full edit</Link>
                     <button className="btn btn-outline-secondary" type="button" onClick={this.props.removeTodo}>Delete</button>
                 </div>
             </React.Fragment>

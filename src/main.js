@@ -3,7 +3,7 @@ import { AddToDo } from './addToDo';
 import { ToDo } from './todo';
 import './App.css';
 
-export class ToDoList extends React.Component {
+export class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,7 +41,8 @@ export class ToDoList extends React.Component {
             todo.title = title;
         }
         this.setState({
-            todos: this.state.todos
+            todos: this.state.todos,
+            newTodoTitle: ''
         });
     }
 
@@ -71,11 +72,7 @@ export class ToDoList extends React.Component {
             todos: this.state.todos
         });
     }
-    // changeMode(todoLink){
-    //     const todo = this.state.todos.find(el => el === todoLink);
-    //     todo.edit = true;
-    //     this.setState({todos:this.state.todos});
-    // }
+
     render() {
         return (
             <React.Fragment>
