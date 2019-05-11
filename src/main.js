@@ -8,43 +8,19 @@ export class Main extends React.Component {
         super(props);
         this.state = {
             todos: props.todos,
-            newTodoTitle: ''
+            newTodoTitle: '',
+            newTodoDescription: ''
         }
-        this.saveTodo = this.saveTodo.bind(this);
+        
         this.updateNewTodoTitle = this.updateNewTodoTitle.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
     }
 
 
-    getMaxId() {
-        const todos = this.state.todos;
-        let maxId = -Infinity;
-        todos.forEach(todo => {
-            if (todo.id > maxId) {
-                maxId = todo.id;
-            }
-        });
-        return maxId;
-    }
 
-    saveTodo(todoId, title) {
-        if (!title) {
-            const curId = this.getMaxId();
-            const newId = curId + 1;
-            this.state.todos.push({
-                id: newId,
-                title: this.state.newTodoTitle
-            });
-        } else {
-            const todo = this.state.todos.find(el => el.id == todoId);
-            todo.title = title;
-        }
-        this.setState({
-            todos: this.state.todos,
-            newTodoTitle: ''
-        });
-    }
+
+
 
     updateNewTodoTitle(event) {
         this.setState({ newTodoTitle: event.target.value });

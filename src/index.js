@@ -7,22 +7,26 @@ let todos = [
     {
         id:1,
         title: 'Lorem ipsum dolor sit amet',
-        isDone: false
+        isDone: false,
+        description : ''
     },
     {
         id:2,
         title: 'Donec nec justo eget feli',
-        isDone: true
+        isDone: true,
+        description : ''
     },
     {
         id:3,
         title: 'Morbi in sem quis dui',
-        isDone: false
+        isDone: false,
+        description : ''
     },
     {
         id:4,
         title: 'Praesent dapibus, neque id cursus faucibus',
-        isDone: true
+        isDone: true,
+        description : ''
     }            
 ]
 ReactDOM.render(<AppRouter todos={todos} />, document.getElementById('root'));

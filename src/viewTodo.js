@@ -17,7 +17,7 @@ export class ViewTodo extends React.Component {
                 
                 <div className="input-group-append">
                     <button className="btn btn-outline-secondary" type="button" onClick={this.props.changeMode}>Edit Title</button>
-                    <Link className="btn btn-outline-secondary" to={`/edit`}>Full edit</Link>
+                    <Link className="btn btn-outline-secondary" to={`/edit/${todo.id}`}>Full edit</Link>
                     <button className="btn btn-outline-secondary" type="button" onClick={this.props.removeTodo}>Delete</button>
                 </div>
             </React.Fragment>
