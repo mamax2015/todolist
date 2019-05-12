@@ -7,15 +7,28 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 export class AppRouter extends React.Component {
-    constructor({ todos }) {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            todos,
+            todos: [],
             newTodoTitle: '',
             newTodoDescription: ''
         }
         this.updateNewValue = this.updateNewValue.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
+        this.removeTodo = this.removeTodo.bind(this);
+    }
+
+    componentDidMount() {
+        fetch('/todos.js')
+            .then(response => response.json())
+            .then(data => {
+                this.state.todos = data.todos;
+                this.setState({
+                    todos: this.state.todos,
+                    newTodoTitle: 'sss22'
+                });
+            });
     }
 
     getMaxId() {
@@ -49,7 +62,13 @@ export class AppRouter extends React.Component {
             newTodoDescription: ''
         });
     }
-
+    removeTodo(todoId) {
+        const toDelIndex = this.state.todos.findIndex(el => {
+            return el.id === todoId;
+        })
+        this.state.todos.splice(toDelIndex, 1);
+        this.setState({ todos: this.state.todos });
+    }
     updateNewValue(event, field) {
         const newValue = {};
         newValue[field] = event.target.value;
@@ -66,26 +85,31 @@ export class AppRouter extends React.Component {
 
 
     render() {
-        const { todos, } = this.props;
+        const todos = this.state.todos;
         return (
-            <Router>
-                <Switch>
-                    <Route
-                        exact path="/"
-                        render={props => <Main {...props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue}
-                            changeStatus={this.changeStatus} />}
-                    />
-                    <Route
-                        path="/edit/:todoId"
-                        render={props => <Edit {...props} pp={props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue} />}
-                    />
-                    <Route
-                        path="/view/:todoId"
-                        component={props => <View {...props} todos={todos} />}
-                    />
-                    <Route path='*' exact={false} component={NotFound} />
-                </Switch>
-            </Router>
+            <React.Fragment>
+                <Router>
+                    <Switch>
+                        <Route
+                            exact path="/"
+                            render={props => <Main {...props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue}
+                                changeStatus={this.changeStatus}
+                                removeTodo={this.removeTodo}
+
+                            />}
+                        />
+                        <Route
+                            path="/edit/:todoId"
+                            render={props => <Edit {...props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue} />}
+                        />
+                        <Route
+                            path="/view/:todoId"
+                            component={props => <View {...props} todos={todos} />}
+                        />
+                        <Route path='*' exact={false} component={NotFound} />
+                    </Switch>
+                </Router>
+            </React.Fragment>
         )
     }
 }
