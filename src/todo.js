@@ -44,10 +44,6 @@ export class ToDo extends React.Component {
         })
     }
 
-    onCheck(event){
-        const isChecked = event.target.value;
-    }
-
     render() {
         const todo = this.props.todo;
         const removeTodo = () => {

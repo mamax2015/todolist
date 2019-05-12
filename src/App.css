@@ -1,6 +1,9 @@
 #root{
   width: 460px;
 }
-.title.done label{
+.title.done a{
   text-decoration: line-through;
+}
+article p {
+  white-space: pre-line;
 }

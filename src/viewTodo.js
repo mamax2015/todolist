@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export class ViewTodo extends React.Component {
     render() {    
@@ -7,10 +7,10 @@ export class ViewTodo extends React.Component {
         return (
             <React.Fragment>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" checked={todo.isDone} id={"checkFor" + todo.id} onChange={this.props.changeStatus} />
+                    <input className="form-check-input" type="checkbox" value="" checked={todo.isDone} id={"checkFor" + todo.id}  onChange={this.props.changeStatus} />
                     
                     <div className={"title" + (todo.isDone ? ' done' : '')}>
-                        <label className="form-check-label" htmlFor={"checkFor" + todo.id}>{todo.title}</label>
+                        <Link to={`/view/${todo.id}`}>{todo.title}</Link>
                     </div>        
                     
                 </div>

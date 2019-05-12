@@ -1,8 +1,10 @@
 import React from 'react';
 import { Main } from './main';
 import { Edit } from './edit';
+import { View } from './view';
+import { NotFound } from './notFound';
 import './App.css';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 export class AppRouter extends React.Component {
     constructor({ todos }) {
@@ -13,6 +15,7 @@ export class AppRouter extends React.Component {
             newTodoDescription: ''
         }
         this.updateNewValue = this.updateNewValue.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
     }
 
     getMaxId() {
@@ -27,16 +30,16 @@ export class AppRouter extends React.Component {
     }
 
     saveTodo = (todoId, title, description) => {
-        if (!title) {
+        if (!todoId) {
             const curId = this.getMaxId();
             const newId = curId + 1;
             this.state.todos.push({
                 id: newId,
-                title: this.state.newTodoTitle,
-                description: this.state.newTodoDescription
+                title: title,
+                description: ''
             });
         } else {
-            const todo = this.state.todos.find(el => el.id == todoId);
+            const todo = this.state.todos.find(el => el.id === todoId);
             todo.title = title;
             todo.description = description;
         }
@@ -53,18 +56,35 @@ export class AppRouter extends React.Component {
         this.setState(newValue);
     }
 
+    changeStatus(todoId, value) {
+        const todo = this.state.todos.find(el => el.id === todoId);
+        todo.isDone = value;
+        this.setState({
+            todos: this.state.todos
+        });
+    }
+
 
     render() {
+        const { todos, } = this.props;
         return (
             <Router>
-                <Route
-                    exact path="/"
-                    render={props => <Main {...props} todos={this.props.todos} />}
-                />
-                <Route
-                    path="/edit/:todoId"
-                    render={ props => <Edit {...props} todos={this.props.todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue} />}
-                />
+                <Switch>
+                    <Route
+                        exact path="/"
+                        render={props => <Main {...props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue}
+                            changeStatus={this.changeStatus} />}
+                    />
+                    <Route
+                        path="/edit/:todoId"
+                        render={props => <Edit {...props} pp={props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue} />}
+                    />
+                    <Route
+                        path="/view/:todoId"
+                        component={props => <View {...props} todos={todos} />}
+                    />
+                    <Route path='*' exact={false} component={NotFound} />
+                </Switch>
             </Router>
         )
     }

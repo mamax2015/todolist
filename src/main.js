@@ -8,15 +8,18 @@ export class Main extends React.Component {
         super(props);
         this.state = {
             todos: props.todos,
-            newTodoTitle: '',
-            newTodoDescription: ''
+            newTodoTitle: ''
         }
         
         this.updateNewTodoTitle = this.updateNewTodoTitle.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
-        this.changeStatus = this.changeStatus.bind(this);
+        this.saveNewTodo = this.saveNewTodo.bind(this);
     }
 
+    saveNewTodo(){
+        const { newTodoTitle } = this.state;
+        this.props.saveTodo(undefined,newTodoTitle);
+    }
 
 
 
@@ -29,7 +32,7 @@ export class Main extends React.Component {
 
     removeTodo(todoId) {
         const toDelIndex = this.state.todos.findIndex(el => {
-            return el.id == todoId;
+            return el.id === todoId;
         })
         this.state.todos.splice(toDelIndex, 1);
         this.setState({ todos: this.state.todos });
@@ -37,24 +40,18 @@ export class Main extends React.Component {
 
     renderListOfTodos() {
         const todos = this.state.todos.map(todo => {
-            return <ToDo changeStatus={this.changeStatus} key={todo.title} todo={todo} removeTodo={this.removeTodo} saveTodo={this.saveTodo} />;
+            return <ToDo changeStatus={this.props.changeStatus} key={todo.title} todo={todo} removeTodo={this.removeTodo} saveTodo={this.props.saveTodo} />;
         });
         return todos;
     }
-    changeStatus(todoId,value) {
-        const todo = this.state.todos.find(el => el.id == todoId);
-        todo.isDone = value;
-        this.setState({
-            todos: this.state.todos
-        });
-    }
+
 
     render() {
         return (
             <React.Fragment>
                 {this.renderListOfTodos()}
                 <AddToDo
-                    saveTodo={this.saveTodo}
+                    saveNewTodo={this.saveNewTodo}
                     newToDoTitle={this.state.newTodoTitle}
                     updateNewTodoTitle={this.updateNewTodoTitle}
                 />
