@@ -15,7 +15,7 @@ export class ViewTodo extends React.Component {
                         <input type="checkbox" value="" checked={isDone} id={"checkFor" + id} onChange={changeStatus} />
                             <Link to={`/view/${id}`}> {title}
                             </Link>
-                            <button class="remove-item btn btn-default btn-xs pull-right" onClick={removeTodo}><span class="glyphicon glyphicon-remove"></span></button>
+                            <button className="remove-item btn btn-default btn-xs pull-right" onClick={removeTodo}><span className="glyphicon glyphicon-remove"></span></button>
                             <Link className="remove-item btn btn-default btn-xs pull-right" to={`/edit/${id}`}>Full edit</Link>
                             <button className="remove-item btn btn-default btn-xs pull-right" type="button" onClick={changeMode}>Edit Title</button>
                         </div>
