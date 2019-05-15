@@ -1,6 +1,7 @@
 import React from 'react';
 import { AddToDo } from './addToDo';
 import { ToDo } from './todo';
+import { Spinner } from './spinner';
 import './App.css';
 
 export class Main extends React.Component {
@@ -9,34 +10,38 @@ export class Main extends React.Component {
         this.state = {
             newTodoTitle: props.newTodoTitle
         }
-        this.updateNewTodoTitle = this.updateNewTodoTitle.bind(this);
         this.saveNewTodo = this.saveNewTodo.bind(this);
     }
 
-    saveNewTodo(){
-        const { newTodoTitle } = this.state;
-        this.props.saveTodo(undefined,newTodoTitle);
-    }
-
-    updateNewTodoTitle(event) {
-        this.setState({ newTodoTitle: event.target.value });
+    saveNewTodo(newTodoTitle) {
+        this.props.saveTodo(undefined, newTodoTitle);
     }
 
     renderListOfTodos() {
+        const { changeStatus, removeTodo, saveTodo } = this.props;
         const todos = this.props.todos.map(todo => {
-            return <ToDo changeStatus={this.props.changeStatus} key={todo.title} todo={todo} removeTodo={this.props.removeTodo} saveTodo={this.props.saveTodo} />;
+            const { title, id } = todo
+            return (
+                <ToDo
+                    changeStatus={changeStatus}
+                    key={title + id}
+                    todo={todo}
+                    removeTodo={removeTodo}
+                    saveTodo={saveTodo} />
+            );
         });
         return todos;
     }
 
     render() {
+        if (!this.props.dataLoaded) {
+            return <Spinner />
+        }
         return (
             <React.Fragment>
                 {this.renderListOfTodos()}
                 <AddToDo
                     saveNewTodo={this.saveNewTodo}
-                    newToDoTitle={this.state.newTodoTitle}
-                    updateNewTodoTitle={this.updateNewTodoTitle}
                 />
             </React.Fragment>
         )

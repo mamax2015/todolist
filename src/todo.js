@@ -19,23 +19,28 @@ export class ToDo extends React.Component {
         this.cancelEdit = this.cancelEdit.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
     }
+
     changeMode() {
         this.setState({
             edit: !this.state.edit
         });
     }
+
     cancelEdit(){
         this.setState({
             edit: false,
             newTitle: this.state.title
         });
     }
+
     changeValue(event){
         this.setState({newTitle : event.target.value})
     }
+
     saveTodo(){
         this.props.saveTodo(this.state.id,this.state.newTitle);
     }
+
     changeStatus(event){
         const checked = event.target.checked;
         this.props.changeStatus(this.state.id,checked);
@@ -49,7 +54,6 @@ export class ToDo extends React.Component {
         const removeTodo = () => {
             this.props.removeTodo(todo.id);
         }
-        
         const renderTodo = () => {
             if(this.state.edit){
                 return (
@@ -71,6 +75,7 @@ export class ToDo extends React.Component {
                 )
             }
         }
+        
         return (
             <div className="input-group mb-3">                
                 {renderTodo()}

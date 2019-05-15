@@ -11,8 +11,7 @@ export class AppRouter extends React.Component {
         super(props);
         this.state = {
             todos: [],
-            newTodoTitle: '',
-            newTodoDescription: ''
+            dataLoaded: false
         }
         this.updateNewValue = this.updateNewValue.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
@@ -20,15 +19,17 @@ export class AppRouter extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/todos.js')
-            .then(response => response.json())
-            .then(data => {
-                this.state.todos = data.todos;
-                this.setState({
-                    todos: this.state.todos,
-                    newTodoTitle: 'sss22'
+        setTimeout(() => {
+            fetch('/todos.js')
+                .then(response => response.json())
+                .then(data => {
+                    const { todos } = data;                    
+                    this.setState({
+                        todos: todos,
+                        dataLoaded: true
+                    });
                 });
-            });
+        }, 2000);
     }
 
     getMaxId() {
@@ -57,11 +58,10 @@ export class AppRouter extends React.Component {
             todo.description = description;
         }
         this.setState({
-            todos: this.state.todos,
-            newTodoTitle: '',
-            newTodoDescription: ''
+            todos: this.state.todos
         });
     }
+
     removeTodo(todoId) {
         const toDelIndex = this.state.todos.findIndex(el => {
             return el.id === todoId;
@@ -69,6 +69,7 @@ export class AppRouter extends React.Component {
         this.state.todos.splice(toDelIndex, 1);
         this.setState({ todos: this.state.todos });
     }
+
     updateNewValue(event, field) {
         const newValue = {};
         newValue[field] = event.target.value;
@@ -85,26 +86,34 @@ export class AppRouter extends React.Component {
 
 
     render() {
-        const todos = this.state.todos;
+        const { todos } = this.state;
         return (
             <React.Fragment>
                 <Router>
                     <Switch>
                         <Route
                             exact path="/"
-                            render={props => <Main {...props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue}
+                            render={props => <Main {...props}
+                                todos={todos}
+                                saveTodo={this.saveTodo}
+                                updateNewValue={this.updateNewValue}
                                 changeStatus={this.changeStatus}
                                 removeTodo={this.removeTodo}
-
+                                dataLoaded={this.state.dataLoaded}
                             />}
                         />
                         <Route
                             path="/edit/:todoId"
-                            render={props => <Edit {...props} todos={todos} saveTodo={this.saveTodo} updateNewValue={this.updateNewValue} />}
+                            render={props => <Edit {...props}
+                                todos={todos}
+                                saveTodo={this.saveTodo}
+                                updateNewValue={this.updateNewValue}
+                                dataLoaded={this.state.dataLoaded}
+                            />}
                         />
                         <Route
                             path="/view/:todoId"
-                            component={props => <View {...props} todos={todos} />}
+                            component={props => <View {...props} todos={todos} dataLoaded={this.state.dataLoaded} />}
                         />
                         <Route path='*' exact={false} component={NotFound} />
                     </Switch>

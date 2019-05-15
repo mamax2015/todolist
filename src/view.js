@@ -1,22 +1,23 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { NotFound } from "./notFound";
-
+import { Spinner } from './spinner';
+import checkIsTodoExist from './checkIsTodoExist';
 
 export class View extends React.Component {
-
-
-
     render() {
-        let { todos, match: { params: { todoId } } } = this.props;
-        todoId = parseInt(todoId);
-        
-        if (!todoId || 1) {
+        const { dataLoaded, todos, match } = this.props;
+        if (!dataLoaded) {
+            return <Spinner />
+        }
+        const todo = checkIsTodoExist(todos, match);        
+        if (!todo) {
             return (
                 <NotFound />
             )
         }
-        let { title, description } = todos.find(el => el.id === todoId);
+        const { title, description } = todo;
+
         return (
             <React.Fragment>
                 <article>
