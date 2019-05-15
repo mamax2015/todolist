@@ -3,7 +3,10 @@ import React from 'react';
 export class Spinner extends React.Component {
     render() {
         return (
-            <div className="loader"></div>
+            <React.Fragment>
+                <div className="loader"></div>
+                Geting data from remote storage...
+            </React.Fragment>
         )
     }
 }

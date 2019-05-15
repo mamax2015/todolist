@@ -11,7 +11,8 @@ export class AppRouter extends React.Component {
         super(props);
         this.state = {
             todos: [],
-            dataLoaded: false
+            dataLoaded: false,
+            localStorage: false
         }
         this.updateNewValue = this.updateNewValue.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
@@ -19,17 +20,28 @@ export class AppRouter extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            fetch('/todos.js')
-                .then(response => response.json())
-                .then(data => {
-                    const { todos } = data;                    
-                    this.setState({
-                        todos: todos,
-                        dataLoaded: true
+        let storedData = localStorage.getItem('todos');
+        if (storedData) {
+            const todos = JSON.parse(storedData);
+            this.setState({
+                todos: todos,
+                dataLoaded: true,
+                localStorage: true
+            });
+        } else {
+            setTimeout(() => {
+                fetch('/todos.js')
+                    .then(response => response.json())
+                    .then(data => {
+                        const { todos } = data;
+                        this.setState({
+                            todos: todos,
+                            dataLoaded: true
+                        });
+                        localStorage.setItem('todos', JSON.stringify(todos));
                     });
-                });
-        }, 2000);
+            }, 3000);
+        }
     }
 
     getMaxId() {
@@ -87,8 +99,15 @@ export class AppRouter extends React.Component {
 
     render() {
         const { todos } = this.state;
+        const GetSource = () => {
+            if(this.state.localStorage){
+                return <p>loaded from localStorage</p>;
+            }
+            return null;
+        }
         return (
             <React.Fragment>
+                {GetSource()}
                 <Router>
                     <Switch>
                         <Route
@@ -100,6 +119,7 @@ export class AppRouter extends React.Component {
                                 changeStatus={this.changeStatus}
                                 removeTodo={this.removeTodo}
                                 dataLoaded={this.state.dataLoaded}
+                                localStorage={this.state.localStorage}
                             />}
                         />
                         <Route
@@ -109,11 +129,17 @@ export class AppRouter extends React.Component {
                                 saveTodo={this.saveTodo}
                                 updateNewValue={this.updateNewValue}
                                 dataLoaded={this.state.dataLoaded}
+                                localStorage={this.state.localStorage}
+
                             />}
                         />
                         <Route
                             path="/view/:todoId"
-                            component={props => <View {...props} todos={todos} dataLoaded={this.state.dataLoaded} />}
+                            component={props => <View {...props} 
+                                todos={todos} 
+                                dataLoaded={this.state.dataLoaded} 
+                                localStorage={this.state.localStorage}
+                            />}
                         />
                         <Route path='*' exact={false} component={NotFound} />
                     </Switch>

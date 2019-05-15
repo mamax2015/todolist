@@ -2,6 +2,7 @@ import React from 'react';
 import { AddToDo } from './addToDo';
 import { ToDo } from './todo';
 import { Spinner } from './spinner';
+import { ResetLocalStorage } from './resetLocalStorage';
 import './App.css';
 
 export class Main extends React.Component {
@@ -17,7 +18,7 @@ export class Main extends React.Component {
         this.props.saveTodo(undefined, newTodoTitle);
     }
 
-    renderListOfTodos() {
+    RenderListOfTodos() {
         const { changeStatus, removeTodo, saveTodo } = this.props;
         const todos = this.props.todos.map(todo => {
             const { title, id } = todo
@@ -40,11 +41,13 @@ export class Main extends React.Component {
         return (
             <React.Fragment>
                 <ul className="list-unstyled">
-                {this.renderListOfTodos()}
+                {this.RenderListOfTodos()}
                 </ul>
                 <AddToDo
                     saveNewTodo={this.saveNewTodo}
                 />
+                <br /><br />
+                <ResetLocalStorage />
             </React.Fragment>
         )
     }
