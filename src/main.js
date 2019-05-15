@@ -39,7 +39,9 @@ export class Main extends React.Component {
         }
         return (
             <React.Fragment>
+                <ul className="list-unstyled">
                 {this.renderListOfTodos()}
+                </ul>
                 <AddToDo
                     saveNewTodo={this.saveNewTodo}
                 />

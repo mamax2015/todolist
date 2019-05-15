@@ -24,7 +24,7 @@ export class View extends React.Component {
                     <h2>{title}</h2>
                     <p>{description}</p>
                 </article>
-                <Link className="btn btn-primary" to={'/'}>Back to The list</Link>
+                <Link className="btn btn-default btn-xs" to={'/'}>Back to The list</Link>
             </React.Fragment>
         )
     }

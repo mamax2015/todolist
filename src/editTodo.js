@@ -7,8 +7,8 @@ export class EditTodo extends React.Component {
             <React.Fragment>
                 <input type="text" className="form-control" placeholder="Enter new title..." aria-label="Enter New title..." aria-describedby="basic-addon2" value={todo.newTitle} onChange={this.props.changeValue} />
                 <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" type="button" onClick={this.props.saveTodo}>Save</button>
-                    <button className="btn btn-outline-secondary" type="button" onClick={this.props.cancelEdit}>Cancel</button>
+                    <button className="btn btn-default" onClick={this.props.saveTodo}>Save</button>
+                    <button className="btn btn-default" onClick={this.props.cancelEdit}>Cancel</button>
                 </div>
             </React.Fragment>
         )
