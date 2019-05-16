@@ -84,7 +84,7 @@ export class Edit extends React.Component {
                 <textarea className="form-control" onChange={(e) => this.updateValue(e, 'newDescription')} id="todoDescEdit" rows="3" value={this.state.newDescription}></textarea>
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={this.saveUpdates}>Save</button>
-                <Link className="btn btn-primary" to={'/'}>Back to The list</Link>
+                <Link className="btn btn-primary" to={process.env.PUBLIC_URL +'/'}>Back to The list</Link>
                 </form>
                 )
             }

@@ -111,7 +111,7 @@ export class AppRouter extends React.Component {
                 <Router>
                     <Switch>
                         <Route
-                            exact path="/"
+                            exact path={process.env.PUBLIC_URL + '/'}
                             render={props => <Main {...props}
                                 todos={todos}
                                 saveTodo={this.saveTodo}
@@ -123,7 +123,7 @@ export class AppRouter extends React.Component {
                             />}
                         />
                         <Route
-                            path="/edit/:todoId"
+                            path={process.env.PUBLIC_URL + '/edit/:todoId'}
                             render={props => <Edit {...props}
                                 todos={todos}
                                 saveTodo={this.saveTodo}
@@ -134,7 +134,7 @@ export class AppRouter extends React.Component {
                             />}
                         />
                         <Route
-                            path="/view/:todoId"
+                            path={process.env.PUBLIC_URL + '/view/:todoId'}
                             component={props => <View {...props} 
                                 todos={todos} 
                                 dataLoaded={this.state.dataLoaded} 
