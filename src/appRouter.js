@@ -30,7 +30,7 @@ export class AppRouter extends React.Component {
             });
         } else {
             setTimeout(() => {
-                fetch('/todos.js')
+                fetch('./todos.js')
                     .then(response => response.json())
                     .then(data => {
                         const { todos } = data;
