@@ -63,29 +63,29 @@ export class Edit extends React.Component {
         if (!checkIsTodoExist(todos, match)) {
             return (
                 <NotFound />
-                )
-            }
+            )
+        }
 
-            const { redirectToMain } = this.state;
-            if (redirectToMain === true) {
-                return <Redirect to="/" from='/view/:id' />
-            }
-            return (
-                <form>
+        const { redirectToMain } = this.state;
+        if (redirectToMain === true) {
+            return <Redirect to={process.env.PUBLIC_URL + '/'} from='/view/:id' />
+        }
+        return (
+            <form>
                 <h2>Edit todo:</h2>
                 <div className="form-group">
-                <label htmlFor="todoTitleEdit">Todo title</label>
-                <input type="text" onChange={(e) => this.updateValue(e, 'newTitle')} value={this.state.newTitle} className="form-control" id="todoTitleEdit" placeholder="Enter title" />
+                    <label htmlFor="todoTitleEdit">Todo title</label>
+                    <input type="text" onChange={(e) => this.updateValue(e, 'newTitle')} value={this.state.newTitle} className="form-control" id="todoTitleEdit" placeholder="Enter title" />
 
                 </div>
 
                 <div className="form-group">
-                <label htmlFor="todoDescEdit">Todo description</label>
-                <textarea className="form-control" onChange={(e) => this.updateValue(e, 'newDescription')} id="todoDescEdit" rows="3" value={this.state.newDescription}></textarea>
+                    <label htmlFor="todoDescEdit">Todo description</label>
+                    <textarea className="form-control" onChange={(e) => this.updateValue(e, 'newDescription')} id="todoDescEdit" rows="3" value={this.state.newDescription}></textarea>
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={this.saveUpdates}>Save</button>
-                <Link className="btn btn-primary" to={process.env.PUBLIC_URL +'/'}>Back to The list</Link>
-                </form>
-                )
-            }
-        }
+                <Link className="btn btn-primary" to={process.env.PUBLIC_URL + '/'}>Back to The list</Link>
+            </form>
+        )
+    }
+}
